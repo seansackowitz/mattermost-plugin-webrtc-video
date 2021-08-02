@@ -18,6 +18,16 @@ jobs:
     steps:
       - checkout
       - run: make test
+      
+  build:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - run: make dist
+      - store_artifacts:
+          path: dist/
+
 
 workflows:
   version: 2
