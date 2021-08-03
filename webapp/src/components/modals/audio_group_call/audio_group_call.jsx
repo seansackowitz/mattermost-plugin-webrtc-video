@@ -100,7 +100,6 @@ class AudioCallPanel extends React.Component {
 
     connectToSwarm(userId) {
         const {
-            userId,
             username,
             signalhubURL,
             stunServer,
