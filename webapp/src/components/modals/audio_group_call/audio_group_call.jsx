@@ -66,7 +66,7 @@ class AudioCallPanel extends React.Component {
             peerStreams: {},
             playBacks: {},
             swarmInitialized: false,
-            myUuid: props.userId,
+            userId: props.userId,
             audioOn: false,
             videoOn: false,
             audioEnabled: true,
@@ -100,7 +100,7 @@ class AudioCallPanel extends React.Component {
 
     connectToSwarm(userId) {
         const {
-            myUuid,
+            userId,
             username,
             signalhubURL,
             stunServer,
@@ -178,7 +178,7 @@ class AudioCallPanel extends React.Component {
             hub,
             {
                 config: {iceServers},
-                uuid: myUuid,
+                userId: userId,
                 wrap: (outgoingSignalingData) => {
                     outgoingSignalingData.fromUserId = userId;
                     outgoingSignalingData.fromUsername = username;
@@ -200,7 +200,7 @@ class AudioCallPanel extends React.Component {
                 fromUsername: username,
 
                 type: 'connect',
-                from: myUuid,
+                from: userId,
                 fromUserId: userId,
 
             }
@@ -208,15 +208,15 @@ class AudioCallPanel extends React.Component {
     }
 
     handleHubData(message) {
-        const {swarmInitialized, myUuid, peerStreams} = this.state;
+        const {swarmInitialized, userId, peerStreams} = this.state;
 
         if (!swarmInitialized) {
             this.setState({swarmInitialized: true});
         }
         debug('HUB DATA', message);
-        if (message.type === 'connect' && message.from !== myUuid) {
+        if (message.type === 'connect' && message.from !== userId) {
             if (!peerStreams[message.from] && message.fromUsername) {
-                debug('connecting to', {uuid: message.from, userId: message.fromUserId, username: message.fromUsername});
+                debug('connecting to', {userId: message.from, userId: message.fromUserId, username: message.fromUsername});
 
                 const newPeerStreams = Object.assign({}, peerStreams);
                 newPeerStreams[message.from] = {userId: message.fromUserId, username: message.fromUsername};
