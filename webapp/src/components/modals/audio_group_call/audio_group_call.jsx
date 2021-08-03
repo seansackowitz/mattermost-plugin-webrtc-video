@@ -213,20 +213,20 @@ class AudioCallPanel extends React.Component {
             this.setState({swarmInitialized: true});
         }
         debug('HUB DATA', message);
-        if (message.type === 'connect' && message.from !== userId) {
-            if (!peerStreams[message.from] && message.fromUsername) {
-                debug('connecting to', {userId: message.from, userId: message.fromUserId, username: message.fromUsername});
+        if (message.type === 'connect' && message.fromUserId !== userId) {
+            if (!peerStreams[message.fromUserId] && message.fromUsername) {
+                debug('connecting to', {userId: message.fromUserId, username: message.fromUsername});
 
                 const newPeerStreams = Object.assign({}, peerStreams);
-                newPeerStreams[message.from] = {userId: message.fromUserId, username: message.fromUsername};
+                newPeerStreams[message.fromUserId] = {userId: message.fromUserId, username: message.fromUsername};
                 this.setState({peerStreams: newPeerStreams});
 
                 setTimeout(() => {
                     const {peerStreams} = this.state;
 
-                    if (peerStreams[message.from] && !peerStreams[message.from].connected) {
+                    if (peerStreams[message.fromUserId] && !peerStreams[message.fromUserId].connected) {
                         const newPeerStreams = Object.assign({}, peerStreams);
-                        delete newPeerStreams[message.from];
+                        delete newPeerStreams[message.fromUserId];
                         this.setState({peerStreams: newPeerStreams});
                     }
                 }, 20000);
