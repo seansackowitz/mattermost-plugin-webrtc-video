@@ -73,7 +73,7 @@ class AudioCallPanel extends React.Component {
             videoEnabled: false,
             userId: props.userId,
             speakerOn: false,
-            myUsername: props.username,
+            username: props.username,
             configLoaded,
             signalhubURL,
             stunServer,
@@ -101,7 +101,7 @@ class AudioCallPanel extends React.Component {
     connectToSwarm(userId) {
         const {
             myUuid,
-            myUsername,
+            username,
             signalhubURL,
             stunServer,
             turnServer,
@@ -181,7 +181,7 @@ class AudioCallPanel extends React.Component {
                 uuid: myUuid,
                 wrap: (outgoingSignalingData) => {
                     outgoingSignalingData.fromUserId = userId;
-                    outgoingSignalingData.fromUsername = myUsername;
+                    outgoingSignalingData.fromUsername = username;
 
                     return outgoingSignalingData;
                 },
@@ -191,13 +191,13 @@ class AudioCallPanel extends React.Component {
         sw.on('peer', this.handleConnect.bind(this));
 
         sw.on('disconnect', this.handleDisconnect.bind(this));
-        debug('Before Broadcast', myUsername);
+        debug('Before Broadcast', username);
 
         // Send initial connect signal
         hub.broadcast(
             roomCode,
             {
-                fromUsername: myUsername,
+                fromUsername: username,
 
                 type: 'connect',
                 from: myUuid,
